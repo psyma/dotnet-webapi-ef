@@ -42,7 +42,8 @@ public class VideoGameController : ControllerBase
         {
             return BadRequest();
         }
-        
+
+        await _context.VideoGames.AddAsync(videoGame);
         _context.VideoGames.Add(videoGame);
         await _context.SaveChangesAsync();
         
