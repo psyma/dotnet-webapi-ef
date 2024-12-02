@@ -24,7 +24,7 @@ public class VideoGameController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<VideoGame>>> GetVideoGame(int id)
+    public async Task<ActionResult<VideoGame>> GetVideoGame(int id)
     {
          var game = await _context.VideoGames.FindAsync(id);
          if (game == null)
