@@ -1,0 +1,6 @@
+﻿services:
+  dotnet-webapi-ef:
+    image: dotnet-webapi-ef
+    build:
+      context: .
+      dockerfile: dotnet-webapi-ef/Dockerfile
