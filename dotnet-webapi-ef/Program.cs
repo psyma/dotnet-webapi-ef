@@ -1,6 +1,7 @@
 using dotnet_webapi_ef.DataContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,14 +13,19 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
  
 builder.Services.AddDbContext<VideoGameDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"), o => o.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "videogame")));
 
-builder.Services.AddDbContext<UserContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection")));
+builder.Services.AddDbContext<UserDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"), o => o.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "users")));
+
+// This option is optimize for READ-ONLY 
+// builder.Services.AddDbContext<UserContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"))
+//        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<UserContext>();
+    .AddEntityFrameworkStores<UserDbContext>();
 
 var app = builder.Build();
 

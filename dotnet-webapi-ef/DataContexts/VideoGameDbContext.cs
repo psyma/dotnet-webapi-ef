@@ -11,7 +11,8 @@ public class VideoGameDbContext(DbContextOptions<VideoGameDbContext> options) : 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        modelBuilder.HasDefaultSchema("videogame");
+        
         modelBuilder.Entity<VideoGame>().HasData(
             new VideoGame
             {
