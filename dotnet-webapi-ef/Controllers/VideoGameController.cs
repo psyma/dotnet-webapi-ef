@@ -19,7 +19,12 @@ public class VideoGameController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<VideoGame>>> GetVideoGames()
     {
-          var games = await _context.VideoGames.ToListAsync();
+          var games = await _context.VideoGames
+              .Include(g => g.VideoGameDetails)
+              .Include(g => g.Developer)
+              .Include(g => g.Publisher)
+              .Include(g => g.Genres)
+              .ToListAsync();
           return Ok(games);
     }
     
